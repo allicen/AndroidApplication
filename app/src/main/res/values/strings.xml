@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Two Activity</string>
+    <string name="one_activity_title">1 экран</string>
+    <string name="one_activity_about">Тут указано число, которое увеличивается на 1 при смене конфигурации</string>
+    <string name="two_activity_title">2 экран</string>
+    <string name="two_activity_about">Тут выводится квадрат числа с 1 экрана (смена конфигурации игнорируется)</string>
+    <string name="button">Перейти на 2 экран</string>
+    <string name="back">Вернуться на 1 экран</string>
+</resources>
