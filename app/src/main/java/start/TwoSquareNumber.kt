@@ -1,6 +1,5 @@
 package start
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -21,25 +20,19 @@ class TwoSquareNumber : AppCompatActivity() {
         square = findViewById<TextView>(R.id.square)
         back = findViewById<Button>(R.id.back)
 
-        val args: String = intent.getStringExtra("number") ?: "0"
-        square.text = getPowNumber(args)
+        val args: Int = intent.getIntExtra("number", 0)
+        square.text = getPowNumber(args).toString()
 
         back.setOnClickListener {
             logs.writeLogs("Переход на 1 activity")
-
-            val backActivity = Intent(this, OneSimpleNumber::class.java)
-                .apply {
-                    putExtra("numberValBack", args)
-                }
-            startActivityForResult(backActivity, 0)
             finish()
         }
 
         logs.writeLogs("Был запущен onCreate во 2-м activity")
     }
 
-    private fun getPowNumber(value: String): String {
-        return value.toDouble().pow(2.0).toInt().toString()
+    private fun getPowNumber(value: Int): Int {
+        return value.toDouble().pow(2.0).toInt()
     }
 
     override fun onStart() {

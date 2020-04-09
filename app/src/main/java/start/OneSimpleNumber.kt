@@ -10,15 +10,17 @@ class OneSimpleNumber: AppCompatActivity() {
 
     lateinit var button: Button
     lateinit var number: TextView
-    var textLog: String = ""
     val logs = Logs()
+    var index: Int = 0
+    var changeActivity: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.one_simple_number)
+        changeActivity = false
 
         number = findViewById<TextView>(R.id.number)
-        number.text = "0"
+        number.text = index.toString()
 
         button = findViewById<Button>(R.id.button)
         button.setOnClickListener {
@@ -26,34 +28,32 @@ class OneSimpleNumber: AppCompatActivity() {
 
             val sendIntent = Intent(this, TwoSquareNumber::class.java)
                 .apply {
-                    putExtra("number", number.text.toString())
+                    putExtra("number", index)
                 }
-            startActivityForResult(sendIntent, 0)
+            startActivity(sendIntent)
+            changeActivity = true
         }
-
-        number.text = intent.getStringExtra("numberValBack") ?: "0"
-
         logs.writeLogs("Был запущен onCreate в 1-м activity")
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
-        var numberVal = 0
-        if (number.text != null) {
-            numberVal = number.text.toString().toInt()
-            numberVal += 1
-        }
-        outState?.putString("NUMBER_VALUE", numberVal.toString())
         super.onSaveInstanceState(outState)
+        if (!changeActivity) {
+            index += 1
+        }
+
+        outState?.putInt("NUMBER_VALUE", index)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        number.text = savedInstanceState?.getString("NUMBER_VALUE")
+        index = savedInstanceState.getInt("NUMBER_VALUE", 0)
+        number.text = index.toString()
     }
-
 
     override fun onStart() {
         logs.writeLogs("Был запущен onStart в 1-м activity")
+        changeActivity = false
         super.onStart()
     }
 
